@@ -1,5 +1,5 @@
 # Pill-detection
-Pill detection and counting system for images and videos with efficient inference.
+Pill detection using `YOLOv26` and counting system for images and videos with efficient inference using `ONNX`.
 
 ---
 
@@ -20,7 +20,7 @@ This project provides:
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/Pill-detection.git
+git clone https://github.com/asmabrazi/Pill-detection.git
 cd Pill-detection
 ```
 
@@ -32,31 +32,19 @@ pip install -r requirements.txt
 ---
 
 ## **Data**
-The [`Medical Pills dataset`](https://github.com/ultralytics/assets/releases/download/v0.0.0/medical-pills.zip) includes 92 training images and 23 validation images. After downloading the dataset, unzip it into the `data/` folder in the root of the repository so your structure looks like this:
+The [`Pills Detection Custom dataset`](https://universe.roboflow.com/sugans-workspace-q0z2l/pills-detection-custom) includes 1804 training images and 135 validation images, 78 test images. After downloading the dataset, unzip it into the `data/` folder in the root of the repository so your structure looks like this:
 
 ```bash
 data
-└── medical-pills
-    ├── LICENSE.txt
-    ├── images
-    │   ├── train
-    │   │   ├── Frame_0.jpg
-    │   │   ├── Frame_100.jpg
-    │   │   ├── ...
-    │   └── val
-    │       ├── Frame_144.jpg
-    │       ├── Frame_172.jpg
-    │       ├── ...
-    ├── labels
-    │   ├── train
-    │   │   ├── Frame_0.txt
-    │   │   ├── Frame_100.txt
-    │   │   ├── ...
-    │   └── val
-    │       ├── Frame_144.txt
-    │       ├── Frame_172.txt
-    │       ├── ...
-    └── medical-pills.yaml # Dataset configuration file
+└── pills-detection-custom.v1i.yolo26
+    ├── train
+    ├── valid
+    ├── test
+    ├── README.dataset.txt
+    ├── README.roboflow.txt
+    └── data.yaml # Dataset configuration file
+└── test_images
+└── test_videos
 ```
 
 ---
@@ -69,7 +57,7 @@ python src/train.py \
     --data_path "data/medical-pills/medical-pills.yaml" \
     --model_path "yolo26n.pt" \
     --epochs 100 \
-    --device "mps" \
+    --device "cuda" \
     --enable_export
 ```
 
@@ -77,21 +65,20 @@ python src/train.py \
 
 ## **Evaluation**
 ```bash
-python src/eval.py --model_path "models/pill_detector.pt" --data_path "data/medical-pills/medical-pills.yaml" --device "mps"
+python src/eval.py --model_path "models/best.pt" --data_path "data/pills-detection-custom.v1i.yolo26/data.yaml" --device "cuda"
 ```
 
 ---
 
 ## Performance Summary (Medical Pills Dataset)
-
-The model achieved strong performance on the validation set, demonstrating reliable pill detection even with a limited dataset of **115 images** (92 Train / 23 Val).  
+The model achieved strong performance on the validation set, demonstrating reliable pill detection: 
 
 | Metric | Score | Key Takeaway |
 | :--- | :--- | :--- |
-| **mAP@50** | **92.7%** | Excellent localization precision. |
-| **mAP@50-95** | **68.9%** | Overall detection performance across stricter IoU thresholds. |
-| **Precision** | **83.9%** | High accuracy; relatively few false positives. |
-| **Recall** | **86.0%** | Successfully detected most pills in validation images. |
+| **mAP@50** | **87.3%** | Excellent localization precision. |
+| **mAP@50-95** | **55.0%** | Overall detection performance across stricter IoU thresholds. |
+| **Precision** | **86.1%** | High accuracy; relatively few false positives. |
+| **Recall** | **78.3%** | Successfully detected most capsues and tablets in validation images. |
 | **Fitness** | **68.9%** | Combined metric used for early stopping and model selection. |
 
 ---
@@ -105,8 +92,22 @@ You can run the pill detector on a single image, and it will detect all pills, d
 ```bash
 python src/infer_image.py \
     --image_path data/test_images/pexels-alex-green-5699524.jpg \
-    --model_path models/pill_detector.pt \
+    --model_path models/best.pt \
     --show
 ```
+Example detection result:
+
+<p align="center">
+  <img src="data/test_images/pexels-alex-green-5699524_predicted.jpg" width="600">
+</p>
 
 ---
+
+### Video inference:
+You can run pill detection on a video using the inference script:
+
+```bash
+python src/infer_video.py --input_path 'data/test_videos/video_1.mp4' --model_path "models/best.onnx"
+```
+
+For demonstration, 2 videos are tested: [Video 1](https://www.youtube.com/shorts/K9aHJDOA2_g) and [Video 2](https://www.youtube.com/shorts/V7zem1UBKy4). The detection results are saved in the `test_videos/` folder.  
