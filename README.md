@@ -1,6 +1,10 @@
 # Pill-detection
 Pill detection using `YOLOv26` and counting system for images and videos with efficient inference using `ONNX`.
 
+<p align="center">
+  <img src="data/test_images/pexels-alex-green-5699524_predicted.jpg" width="600">
+</p>
+
 ---
 
 ## **Project Overview**
@@ -95,11 +99,6 @@ python src/infer_image.py \
     --model_path models/best.pt \
     --show
 ```
-Example detection result:
-
-<p align="center">
-  <img src="data/test_images/pexels-alex-green-5699524_predicted.jpg" width="600">
-</p>
 
 ---
 
