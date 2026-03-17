@@ -1,5 +1,5 @@
-# Pill-detection
-Pill detection using `YOLOv26` and counting system for images and videos with efficient inference using `ONNX`.
+# Pill detection and counting with YOLO26
+Pill detection and counting using `YOLOv26` for images and videos with efficient inference using `ONNX`.
 
 <p align="center">
   <img src="data/test_images/pexels-alex-green-5699524_predicted.jpg" width="600">
@@ -53,8 +53,8 @@ data
 
 ---
 
-## **Training the Model**
-Run the training script with custom arguments:
+## **Model**
+Download a trained model (see the releases section). Or run the training script with custom arguments:
 
 ```bash
 python src/train.py \
@@ -88,7 +88,7 @@ The model achieved strong performance on the validation set, demonstrating relia
 ---
 
 ## **Inference and Pill Counting**
-### Image inference:
+### Image inference
 You can run the pill detector on a single image, and it will detect all pills, draw bounding boxes, and display the total count.
 
 1. Download a [test image](https://www.pexels.com/photo/set-of-small-pills-on-green-surface-5699524/) from Pexels and save it into `data/test_images`
@@ -102,11 +102,11 @@ python src/infer_image.py \
 
 ---
 
-### Video inference:
+### Video inference
 You can run pill detection on a video using the inference script:
 
 ```bash
 python src/infer_video.py --input_path 'data/test_videos/video_1.mp4' --model_path "models/best.onnx"
 ```
 
-For demonstration, 2 videos are tested: [Video 1](https://www.youtube.com/shorts/K9aHJDOA2_g) and [Video 2](https://www.youtube.com/shorts/V7zem1UBKy4). The detection results are saved in the `test_videos/` folder.  
+For demonstration, 2 videos are tested: [Video 1](https://www.youtube.com/shorts/K9aHJDOA2_g) and [Video 2](https://www.youtube.com/shorts/V7zem1UBKy4). The detection results are available at [Video 1 results ](https://drive.google.com/file/d/1zZPdKOdEZnMDQfr5eQ3QCu9wAf810F88/view?usp=drive_link) and [Video 2 results](https://drive.google.com/file/d/1v8PfwKSKc6EnMEjm4hfS9ZNQ_-jFfqVU/view?usp=drive_link).
