@@ -96,7 +96,18 @@ class PillDetector:
 
         results = self.model.predict(image_path, save=True, conf=0.28, iou=0.6)
         return results
+        
+    def track(self, video_path):
+        """
+        Run inference on the input video to detect and track pills.
 
+        Parameters:
+        - video_path: Path to the input video.
+        """
+
+        results = self.model.track(video_path, save=True, conf=0.28, iou=0.6, show=True, show_labels=True, show_conf=True)
+        return results
+        
     def apply_nms(self, results, iou_threshold=0.45):
         """
         Apply Non-Maximum Suppression (NMS) to filter overlapping bounding boxes.
