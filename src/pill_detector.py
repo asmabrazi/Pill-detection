@@ -68,7 +68,7 @@ class PillDetector:
 
         # Export the trained model to ONNX format
         if enable_export:
-            self.model.export(format="onnx", optimize=True)
+            self.model.export(format="onnx", dynamic=True)
 
         return training_results
     
