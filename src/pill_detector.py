@@ -14,7 +14,6 @@ class PillDetector:
         - model_path: Path to the YOLOv11 model weights (default is "yolo11n.pt" for the nano version).
         - device: Device to use for inference (default is "mps").
         '''
-        self.model = YOLO(model_path)
         self.device = device 
         self.backend = None
         self.onnx_session = None
